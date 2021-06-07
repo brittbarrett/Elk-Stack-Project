@@ -8,7 +8,7 @@ The files in this repository were used to configure the network depicted below.
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the /etc/ansible file may be used to install only certain pieces of it, such as Filebeat.
 
-  - (/Ansible folder)
+  - (/Ansible folder contains all necessary files)
 
 This document contains the following details:
 - Description of the Topology
@@ -23,40 +23,45 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly _____, in addition to restricting _____ to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly available, in addition to restricting access to the network.
+  - Load Balancers protect systems from Denial of Service (DDoS) attacks by shifting traffic. They distribute inbound network traffic among the connected web           servers inorder to mitigate DDos threats and attacks.
+  
+  - The Jump Box VM acts as a gateway as it it used to access and manage devices that live in two different security zones.  
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
-- _TODO: What does Metricbeat record?_
+
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the jump box and system network.
+- Filebeat is a tool used to send and centralize data. It monitors log files and locations that the user specifies, collects log events, and forwards these to       either ElasticLearsh or Logstash
+- Metricbeat records statistics and metrics from the operating system and from services running on the server and forwards them to the output specified by the       user, such as Elasticsearch and Logstash. 
 
 The configuration details of each machine may be found below.
 _Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
-| Name     | Function | IP Address | Operating System |
-|----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
+| Name      | Function   | IP Address | Operating System |  
+|-----------|------------|------------|------------------|
+| Jump Box  | Gateway    | 10.0.0.4   | Linux            |   
+| Elk Stack | Monitoring | 10.1.0.4   | Linux            |   
+| Web-1     | Hosts      | 10.0.0.5   | Linux            |   
+| Web-2     | Hosts      | 10.0.0.6   | Linux            |  
 
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the Jump Box Provisioner machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+- 24.251.118.96
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+Machines within the network can only be accessed by ssh.
+- The Jump-box-provisoner machine with an IP address of _52.158.232.233_ has access to the Elk server via ssh. 
 
 A summary of the access policies in place can be found in the table below.
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
+| Name          | Publicly Accessible? | Allowed IP Addresses                   |
+|---------------|----------------------|----------------------------------------|
+| Jump Box      | Yes                  | 24.251.118.96 (Home Public IP address) |
+| Elk Server    | No                   | Jump-Box-Public IP                     |
+| Web-1         | No                   | Jump Box Public IP                     |
+| Web-2         | No                   | Jump Box Public IP                     |
+| Load Balancer | Yes                  | 24.251.118.96 (Home Public IP address) |
 
 ### Elk Configuration
 
