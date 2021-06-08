@@ -34,7 +34,6 @@ Integrating an ELK server allows users to easily monitor the vulnerable VMs for 
 - Metricbeat records statistics and metrics from the operating system and from services running on the server and forwards them to the output specified by the       user, such as Elasticsearch and Logstash. 
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
 | Name      | Function   | IP Address | Operating System |  
 |-----------|------------|------------|------------------|
@@ -69,9 +68,14 @@ Ansible was used to automate configuration of the ELK machine. No configuration 
 - it allows for more flexibility and repeatability, it only completes necessary tasks, allows for users to free up time as it is automated, and easy to set up. 
 
 The playbook implements the following tasks:
-- In the ansible container, create a new file called install-elk.yml
-- 
-- 
+- Installation of docker.io to run containers and python3-pip used to install Python software. 
+- Increase virtual memory in order to use more memory so that the ELK container will actually run. The Ansible 'sysctl' module should be set to automatically run   in the event of VM restart.
+- Installs the pip package docker. 
+- Downloads Dockers container 'sebp/elk:761'
+- Configures the container to start with the following port mappings: 
+    - 5601:5601
+    - 9200:9200
+    - 5044:5044
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
@@ -79,25 +83,23 @@ The following screenshot displays the result of running `docker ps` after succes
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
-- _TODO: List the IP addresses of the machines you are monitoring_
+- Web-1 VM: 10.0.0.5
+- Web-2 VM: 10.0.0.6
 
 We have installed the following Beats on these machines:
-- _TODO: Specify which Beats you successfully installed_
+- Filebeat
+- Metricbeat
 
 These Beats allow us to collect the following information from each machine:
-- _TODO: In 1-2 sentences, explain what kind of data each beat collects, and provide 1 example of what you expect to see. E.g., `Winlogbeat` collects Windows logs, which we use to track user logon events, etc._
+- Filebeat collects data about syslogs, ssh attempts, sudo commands, and users and groups. 
+- Metricbeat allows us to collect data like CPU usage, memory, network, and disk statistics from our host Web-1 and Web-2 servers. 
 
 ### Using the Playbook
 In order to use the playbook, you will need to have an Ansible control node already configured. Assuming you have such a control node provisioned: 
 
 SSH into the control node and follow the steps below:
-- Copy the _____ file to _____.
-- Update the _____ file to include...
-- Run the playbook, and navigate to ____ to check that the installation worked as expected.
-
-_TODO: Answer the following questions to fill in the blanks:_
-- _Which file is the playbook? Where do you copy it?_
-- _Which file do you update to make Ansible run the playbook on a specific machine? How do I specify which machine to install the ELK server on versus which to install Filebeat on?_
-- _Which URL do you navigate to in order to check that the ELK server is running?
+- Copy the install-elk.yml file to /etc/ansible on your Jump Box server.
+- Update the hosts file to include the 10.1.0.4 ansible_python_interpreter=/usr/bin/python. 
+- Run the playbook, and navigate to http://Elk_External_IP>:5601/app/kibana to check that the installation worked as expected.
 
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc._
