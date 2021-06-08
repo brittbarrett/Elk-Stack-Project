@@ -6,7 +6,7 @@ The files in this repository were used to configure the network depicted below.
 
 (/Diagrams/RedTeam_Network.png)
 
-These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the /etc/ansible file may be used to install only certain pieces of it, such as Filebeat.
+These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the /etc/ansible folder may be used to install only certain pieces of it, such as Filebeat.
 
   - (/Ansible folder contains all necessary files)
 
@@ -55,27 +55,27 @@ Machines within the network can only be accessed by ssh.
 
 A summary of the access policies in place can be found in the table below.
 
-| Name          | Publicly Accessible? | Allowed IP Addresses                   |
-|---------------|----------------------|----------------------------------------|
-| Jump Box      | Yes                  | 24.251.118.96 (Home Public IP address) |
-| Elk Server    | No                   | Jump-Box-Public IP                     |
-| Web-1         | No                   | Jump Box Public IP                     |
-| Web-2         | No                   | Jump Box Public IP                     |
-| Load Balancer | Yes                  | 24.251.118.96 (Home Public IP address) |
+| Name                 | Publicly Accessible? | Allowed IP Address                 | Allowed Ports | Allowed Protocols |
+|----------------------|----------------------|------------------------------------|---------------|-------------------|
+| Jump-Box-Provisioner | Yes                  | Home Public IP                     | 22            | TCP               |
+| Elk-Server           | No                   | 10.0.0.4(JBP), 51.141.185.246(LB)  | 22, 80        | TCP               |
+| Web-1                | No                   | 10.0.0.4(JBP), 51.141.185.246(LB)  | 22, 80        | TCP               |
+| Web-2                | No                   | 10.0.0.4(JBP), 51.141.185.246 (LB) | 22, 80        | TCP               |
+| Load Balancer        | Yes                  | Home Public IP                     | 80            | TCP               |
 
 ### Elk Configuration
 
 Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+- it allows for more flexibility and repeatability, it only completes necessary tasks, allows for users to free up time as it is automated, and easy to set up. 
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+- In the ansible container, create a new file called install-elk.yml
+- 
+- 
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+(Images/docker_ps_output.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
